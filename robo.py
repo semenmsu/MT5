@@ -1,13 +1,19 @@
-from datetime import datetime
+"""
+Example simple spreader robot for MetaTrader5
+using python API
+"""
+
 import time
-import MetaTrader5 as mt5
-from mt.constants import *
+import logging
 from mt.contracts import USDJPYm
 from mt.instrument import Instrument
-from mt.order import Order
 
 
 class Session:
+    """
+    Session contains all instruments for trading and check validity
+    """
+
     def __init__(self):
         self.instruments = dict()
 
@@ -30,6 +36,10 @@ class Session:
 
 
 class Robo:
+    """
+    Spreader example
+    """
+
     def __init__(self, contract):
         self.contract = contract
         self.session = Session()
@@ -52,14 +62,20 @@ class Robo:
             self.mm_ask.update(self.instrument.ask).add(points=10)
             self.buy_limit.update(self.mm_bid.value, self.mm_bid_amount)
             self.sell_limit.update(self.mm_ask.value, self.mm_ask_amount)
+        else:
+            self.handle_not_valid_session()
+
+    def handle_not_valid_session(self):
+        print("handle_not_valid_session is not implemented")
 
     def should_be_updated(self):
         self.needs_updating = True
 
     def run(self):
+        self.running = True
         while self.running:
             self.update()
-            time.sleep(1)
+            time.sleep(0.1)
 
 
 robo = Robo(USDJPYm)
