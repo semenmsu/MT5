@@ -2,7 +2,10 @@ import enum
 
 
 DIR_LONG = 1
+DIR_BUY = 1
+
 DIR_SHORT = 2
+DIR_SELL = 2
 
 # order types, ENUM_ORDER_TYPE
 ORDER_TYPE_BUY = 0  # Market Buy order

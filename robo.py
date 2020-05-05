@@ -38,25 +38,27 @@ class Robo:
         self.mm_bid = contract.Price()
         self.mm_bid_amount = 0.01
         self.mm_ask = contract.Price()
-        self.mm_ask_amount = 0
+        self.mm_ask_amount = 0.01
         self.price_tolerance = 3
-        self.position = 0
-        #self.long = Order(self.instrument, DIR_LONG, self.price_tolerance)
+        self.position = 0  # contract.Position()
         self.buy_limit = contract.BuyLimitOrder(self.price_tolerance)
-        self.short = Order(self.instrument, DIR_SHORT, self.price_tolerance)
+        self.sell_limit = contract.SellLimitOrder(self.price_tolerance)
+        self.needs_updating = True
+
+    def update(self):
+        self.session.update()
+        if self.session.is_valid():
+            self.mm_bid.update(self.instrument.bid).minus(points=10)
+            self.mm_ask.update(self.instrument.ask).add(points=10)
+            self.buy_limit.update(self.mm_bid.value, self.mm_bid_amount)
+            self.sell_limit.update(self.mm_ask.value, self.mm_ask_amount)
+
+    def should_be_updated(self):
+        self.needs_updating = True
 
     def run(self):
-        self.running = True
-        instrument = self.instrument
-        mm_bid = self.mm_bid
-        mm_ask = self.mm_ask
-
         while self.running:
-            self.session.update()
-            if self.session.is_valid():
-                mm_bid.update(instrument.bid).minus(points=10)
-                mm_ask.update(instrument.ask).add(points=10)
-                self.buy_limit(mm_bid.value, self.mm_bid_amount)
+            self.update()
             time.sleep(1)
 
 
