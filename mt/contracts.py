@@ -33,9 +33,9 @@ class BasePrice:
 
     def add(self, pips=None, points=None):
         if pips is not None:
-            self.price -= pips*self.step
+            self.price += pips*self.step
         if points is not None:
-            self.price -= points*self.step
+            self.price += points*self.step
         return self
 
     def minus(self, pips=None, points=None):

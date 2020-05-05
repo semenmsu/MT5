@@ -54,12 +54,13 @@ class Robo:
         self.buy_limit = contract.BuyLimitOrder(self.price_tolerance)
         self.sell_limit = contract.SellLimitOrder(self.price_tolerance)
         self.needs_updating = True
+        self.spread = 10
 
     def update(self):
         self.session.update()
         if self.session.is_valid():
-            self.mm_bid.update(self.instrument.bid).minus(points=10)
-            self.mm_ask.update(self.instrument.ask).add(points=10)
+            self.mm_bid.update(self.instrument.bid).minus(points=self.spread)
+            self.mm_ask.update(self.instrument.ask).add(points=self.spread)
             self.buy_limit.update(self.mm_bid.value, self.mm_bid_amount)
             self.sell_limit.update(self.mm_ask.value, self.mm_ask_amount)
         else:
@@ -75,7 +76,14 @@ class Robo:
         self.running = True
         while self.running:
             self.update()
-            time.sleep(0.1)
+            time.sleep(1)
+
+    def html(self):
+        html_ = {
+            'spread': {'tag': 'numberic', 'type': 'int', 'min': 0, 'max': 1000, 'step': 1},
+            'name': {'type': 'string'}
+        }
+        return html_
 
 
 robo = Robo(USDJPYm)
