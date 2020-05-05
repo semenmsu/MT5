@@ -41,3 +41,6 @@ class Order:
                           self.side, " price ", desired_price)
                 send_limit_order(self.instrument.symbol,
                                  self.price, self.amount)
+
+    def __call__(self, desired_price, desired_amount):
+        self.update(desired_price, desired_amount)

@@ -35,3 +35,9 @@ ORDER_TIME_DAY = 1  # Good till current trade day order
 ORDER_TIME_SPECIFIED = 2  # Good till expired order
 # The order will be effective till 23:59:59 of the specified day. If this time is outside a trading session,
 ORDER_TIME_SPECIFIED_DAY = 3
+
+
+# ENUM_ORDER_TYPE_FILLING
+ORDER_FILLING_FOK = 0
+ORDER_FILLING_IOC = 1
+ORDER_FILLING_RETURN = 2
