@@ -1,5 +1,6 @@
 from .constants import *
-from .order_manager import send_limit_order
+#from .order_manager import send_limit_order
+from .mt5_client import mt5_client as client
 
 
 class BasePair:
@@ -72,8 +73,8 @@ class BuyLimitOrder:
             if desired_amount >= self.min_open_amount:
                 print("setup order direction        ",
                       self.side, " price ", self.price)
-                send_limit_order(self.contract.symbol,
-                                 self.price, self.amount)
+                client.send_limit_order(self.contract.symbol,
+                                        self.price, self.amount)
             return
 
         self.desire_price = desired_price
@@ -85,8 +86,8 @@ class BuyLimitOrder:
                 if desired_amount >= self.min_open_amount:
                     print("should update order direction",
                           self.side, " price ", desired_price)
-                send_limit_order(self.contract.symbol,
-                                 self.price, self.amount)
+                client.send_limit_order(self.contract.symbol,
+                                        self.price, self.amount)
 
     def __call__(self, desired_price, desired_amount):
         self.update(desired_price, desired_amount)
@@ -119,8 +120,8 @@ class SellLimitOrder:
             if desired_amount >= self.min_open_amount:
                 print("setup order direction        ",
                       self.side, " price ", self.price)
-                send_limit_order(self.contract.symbol,
-                                 self.price, self.amount)
+                client.send_limit_order(self.contract.symbol,
+                                        self.price, self.amount)
             return
 
         self.desire_price = desired_price
@@ -132,8 +133,8 @@ class SellLimitOrder:
                 if desired_amount >= self.min_open_amount:
                     print("should update order direction",
                           self.side, " price ", desired_price)
-                send_limit_order(self.contract.symbol,
-                                 self.price, self.amount)
+                client.send_limit_order(self.contract.symbol,
+                                        self.price, self.amount)
 
     def __call__(self, desired_price, desired_amount):
         self.update(desired_price, desired_amount)

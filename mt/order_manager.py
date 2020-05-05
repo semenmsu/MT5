@@ -1,4 +1,5 @@
 from .constants import *
+from .logger import logger
 
 '''
 request = {
@@ -45,5 +46,6 @@ def send_limit_order(symbol, price, amount):
         "type_time": ORDER_TIME_GTC,
         "type_filling": ORDER_FILLING_RETURN,
     }
-    print(request)
+
+    logger.debug(request, extra={'type': "request"})
     return
